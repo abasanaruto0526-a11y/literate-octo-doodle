@@ -1,0 +1,211 @@
+/* VoiceRecorder スタイル */
+.voice-recorder {
+  padding: 28px;
+  margin-bottom: 24px;
+}
+
+.recorder-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.recorder-header h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.recording-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: rgba(255, 101, 132, 0.15);
+  border: 1px solid rgba(255, 101, 132, 0.35);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-recording);
+  animation: fadeIn 0.3s ease;
+}
+
+.rec-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--color-recording);
+  border-radius: 50%;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+/* 音波ビジュアライザー */
+.waveform-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  height: 72px;
+  margin-bottom: 24px;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.waveform-bar {
+  width: 4px;
+  background: linear-gradient(to top, var(--color-primary), var(--color-teal));
+  border-radius: 2px;
+  min-height: 4px;
+  transition: height 0.08s ease;
+  opacity: 0.4;
+}
+
+.waveform-container.active .waveform-bar {
+  opacity: 1;
+}
+
+/* 録音ボタン */
+.recorder-controls {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.record-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 36px;
+  border-radius: 50px;
+  border: none;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: var(--font-main);
+  cursor: pointer;
+  transition: var(--transition);
+  letter-spacing: 0.5px;
+}
+
+.record-btn.start {
+  background: linear-gradient(135deg, var(--color-primary), #4c6ef5);
+  color: white;
+  box-shadow: 0 6px 24px rgba(108, 143, 255, 0.35);
+}
+
+.record-btn.start:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 30px rgba(108, 143, 255, 0.5);
+}
+
+.record-btn.stop {
+  background: linear-gradient(135deg, #ff6584, #e04a6a);
+  color: white;
+  box-shadow: 0 6px 24px rgba(255, 101, 132, 0.35);
+  animation: pulse 2s infinite;
+}
+
+.record-btn.stop:hover {
+  transform: translateY(-3px) scale(1.02);
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 6px 24px rgba(255, 101, 132, 0.35); }
+  50% { box-shadow: 0 6px 35px rgba(255, 101, 132, 0.6); }
+}
+
+.record-icon {
+  font-size: 20px;
+}
+
+/* テキストエリア */
+.transcript-area {
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.transcript-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.transcript-textarea {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  font-family: var(--font-main);
+  font-size: 15px;
+  line-height: 1.7;
+  padding: 14px 16px;
+  resize: vertical;
+  outline: none;
+  transition: border-color var(--transition);
+}
+
+.transcript-textarea:focus {
+  border-color: var(--color-primary);
+}
+
+.analysis-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.keywords {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.recorder-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.hint-text {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 14px;
+  padding: 16px 0;
+}
+
+.not-supported {
+  text-align: center;
+  padding: 40px;
+}
+
+.not-supported-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.muted {
+  color: var(--color-text-muted);
+  font-size: 13px;
+  margin-top: 6px;
+}

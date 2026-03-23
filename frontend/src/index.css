@@ -1,0 +1,155 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-bg-deep: #050a1a;
+  --color-bg-card: #0d1630;
+  --color-bg-glass: rgba(15, 25, 60, 0.7);
+  --color-primary: #6c8fff;
+  --color-primary-dim: rgba(108, 143, 255, 0.15);
+  --color-accent: #f0a060;
+  --color-accent-dim: rgba(240, 160, 96, 0.15);
+  --color-teal: #4ecdc4;
+  --color-teal-dim: rgba(78, 205, 196, 0.15);
+  --color-text: #e8eaf6;
+  --color-text-muted: #8892b0;
+  --color-border: rgba(108, 143, 255, 0.2);
+  --color-recording: #ff6584;
+  --shadow-glow: 0 0 30px rgba(108, 143, 255, 0.15);
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --font-main: 'Noto Sans JP', 'Inter', sans-serif;
+  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--color-bg-deep);
+  color: var(--color-text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* 背景のアニメーション */
+body::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: 
+    radial-gradient(ellipse at 20% 20%, rgba(108, 143, 255, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(240, 160, 96, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(78, 205, 196, 0.04) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+  animation: bgFloat 20s ease-in-out infinite alternate;
+}
+
+@keyframes bgFloat {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  100% { transform: translate(2%, 2%) rotate(2deg); }
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+/* スクロールバー */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-primary); }
+
+/* グラスモーフィズムカード */
+.glass-card {
+  background: var(--color-bg-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+/* ボタン */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  border: none;
+  font-family: var(--font-main);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-primary), #4c6ef5);
+  color: white;
+  box-shadow: 0 4px 15px rgba(108, 143, 255, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(108, 143, 255, 0.45);
+}
+
+.btn-ghost {
+  background: var(--color-primary-dim);
+  color: var(--color-primary);
+  border: 1px solid var(--color-border);
+}
+
+.btn-ghost:hover {
+  background: rgba(108, 143, 255, 0.25);
+}
+
+.btn-danger {
+  background: rgba(255, 101, 132, 0.15);
+  color: var(--color-recording);
+  border: 1px solid rgba(255, 101, 132, 0.25);
+}
+
+.btn-danger:hover {
+  background: rgba(255, 101, 132, 0.25);
+}
+
+/* タグ */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--color-primary-dim);
+  color: var(--color-primary);
+  border: 1px solid rgba(108, 143, 255, 0.25);
+}
+
+/* 感情バッジ */
+.emotion-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.emotion-positive { background: rgba(78, 205, 196, 0.15); color: var(--color-teal); border: 1px solid rgba(78, 205, 196, 0.3); }
+.emotion-negative { background: rgba(255, 101, 132, 0.15); color: var(--color-recording); border: 1px solid rgba(255, 101, 132, 0.3); }
+.emotion-neutral { background: rgba(136, 146, 176, 0.15); color: var(--color-text-muted); border: 1px solid rgba(136, 146, 176, 0.3); }
+.emotion-excited { background: rgba(240, 160, 96, 0.15); color: var(--color-accent); border: 1px solid rgba(240, 160, 96, 0.3); }
