@@ -32,10 +32,50 @@ export const api = {
 
   // ノート削除
   async deleteNote(id) {
-    const res = await fetch(`${API_URL}/api/notes/${id}`, {
-      method: 'DELETE',
+    const res = await fetch(`${API_URL}/api/notes/${id}`, { method: 'DELETE' });
+    if (!res.ok) throw new Error('API Error');
+    return res.json();
+  },
+
+  // --- Events API ---
+  async getEvents() {
+    const res = await fetch(`${API_URL}/api/events`);
+    if (!res.ok) throw new Error('API Error');
+    return res.json();
+  },
+  async createEvent(data) {
+    const res = await fetch(`${API_URL}/api/events`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
     });
-    if (!res.ok) throw new Error('ノートの削除に失敗しました');
+    if (!res.ok) throw new Error('API Error');
+    return res.json();
+  },
+  async deleteEvent(id) {
+    const res = await fetch(`${API_URL}/api/events/${id}`, { method: 'DELETE' });
+    if (!res.ok) throw new Error('API Error');
+    return res.json();
+  },
+
+  // --- Daily Media API ---
+  async getDailyMedia() {
+    const res = await fetch(`${API_URL}/api/daily-media`);
+    if (!res.ok) throw new Error('API Error');
+    return res.json();
+  },
+  async uploadDailyMedia(data) {
+    const res = await fetch(`${API_URL}/api/daily-media`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error('API Error');
+    return res.json();
+  },
+  async deleteDailyMedia(id) {
+    const res = await fetch(`${API_URL}/api/daily-media/${id}`, { method: 'DELETE' });
+    if (!res.ok) throw new Error('API Error');
     return res.json();
   },
 

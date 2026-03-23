@@ -121,8 +121,17 @@
   font-weight: 700;
 }
 
+.sidebar-stats {
+  margin-top: 20px;
+}
+
+.sidebar-stats .emotion-stats {
+  padding: 16px;
+  margin-bottom: 0;
+}
+
 .sidebar-footer {
-  margin-top: 32px;
+  margin-top: 16px;
   padding-top: 20px;
   border-top: 1px solid var(--color-border);
 }
@@ -187,12 +196,19 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
 
 .notes-header h2 {
   font-size: 18px;
   font-weight: 700;
+}
+
+.notes-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: auto;
 }
 
 .notes-count {
@@ -202,6 +218,35 @@
   border-radius: 20px;
   font-size: 13px;
   font-weight: 600;
+}
+
+.view-toggle {
+  display: flex;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 4px;
+  gap: 4px;
+}
+
+.toggle-btn {
+  background: transparent;
+  color: var(--color-text-muted);
+  border: none;
+  padding: 6px 14px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.toggle-btn:hover {
+  color: var(--color-text);
+}
+
+.toggle-btn.active {
+  background: var(--color-primary-dim);
+  color: var(--color-primary);
 }
 
 .notes-grid {

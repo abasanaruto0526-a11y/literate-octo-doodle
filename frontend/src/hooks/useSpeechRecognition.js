@@ -8,7 +8,12 @@ export function useSpeechRecognition() {
   const [transcript, setTranscript] = useState('');
   const [interimTranscript, setInterimTranscript] = useState('');
   const [supported, setSupported] = useState(true);
+  const [audioUrl, setAudioUrl] = useState(null);
+  const [audioBase64, setAudioBase64] = useState(null);
+  
   const recognitionRef = useRef(null);
+  const mediaRecorderRef = useRef(null);
+  const audioChunksRef = useRef([]);
 
   useEffect(() => {
     if (!SpeechRecognition) {
@@ -54,23 +59,64 @@ export function useSpeechRecognition() {
     return () => recognition.abort();
   }, []);
 
-  const startListening = useCallback(() => {
+  const startListening = useCallback(async () => {
     if (!recognitionRef.current) return;
     setTranscript('');
     setInterimTranscript('');
+    setAudioUrl(null);
+    setAudioBase64(null);
+    
+    // Start speech recognition
     recognitionRef.current.start();
     setIsListening(true);
+    
+    // Start actual audio recording
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mediaRecorder = new MediaRecorder(stream);
+      mediaRecorderRef.current = mediaRecorder;
+      audioChunksRef.current = [];
+      
+      mediaRecorder.ondataavailable = e => {
+        if (e.data.size > 0) audioChunksRef.current.push(e.data);
+      };
+      
+      mediaRecorder.onstop = () => {
+        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        const url = URL.createObjectURL(audioBlob);
+        setAudioUrl(url);
+
+        const reader = new FileReader();
+        reader.readAsDataURL(audioBlob);
+        reader.onloadend = () => {
+          setAudioBase64(reader.result);
+        };
+      };
+      
+      mediaRecorder.start();
+    } catch (e) {
+      console.error('マイクへのアクセスに失敗しました', e);
+    }
   }, []);
 
   const stopListening = useCallback(() => {
     if (!recognitionRef.current) return;
     recognitionRef.current.stop();
     setIsListening(false);
+    
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+      mediaRecorderRef.current.stop();
+      if (mediaRecorderRef.current.stream) {
+        mediaRecorderRef.current.stream.getTracks().forEach(t => t.stop());
+      }
+    }
   }, []);
 
   const resetTranscript = useCallback(() => {
     setTranscript('');
     setInterimTranscript('');
+    setAudioUrl(null);
+    setAudioBase64(null);
   }, []);
 
   return {
@@ -81,5 +127,7 @@ export function useSpeechRecognition() {
     startListening,
     stopListening,
     resetTranscript,
+    audioUrl,
+    audioBase64
   };
 }

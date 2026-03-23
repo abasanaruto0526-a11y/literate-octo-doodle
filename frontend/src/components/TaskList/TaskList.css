@@ -1,0 +1,117 @@
+.task-list {
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.task-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--color-border);
+  transition: background var(--transition);
+}
+
+.task-header:hover {
+  background: var(--color-primary-dim);
+}
+
+.task-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.task-count {
+  padding: 2px 8px;
+  background: var(--color-primary-dim);
+  color: var(--color-primary);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.task-toggle {
+  color: var(--color-text-muted);
+  font-size: 12px;
+  transition: transform var(--transition);
+}
+
+.task-items {
+  padding: 8px 0;
+  animation: slideUp 0.2s ease;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  transition: background var(--transition);
+}
+
+.task-item:hover {
+  background: rgba(108, 143, 255, 0.05);
+}
+
+.task-item.done .task-text {
+  text-decoration: line-through;
+  opacity: 0.4;
+}
+
+.task-check {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+  transition: var(--transition);
+}
+
+.task-check:hover {
+  opacity: 0.75;
+}
+
+.task-text {
+  flex: 1;
+  font-size: 14px;
+  color: var(--color-text);
+  line-height: 1.4;
+}
+
+.task-priority {
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.task-delete {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  font-size: 16px;
+  opacity: 0;
+  transition: opacity var(--transition), color var(--transition);
+  padding: 0 4px;
+}
+
+.task-item:hover .task-delete {
+  opacity: 1;
+}
+
+.task-delete:hover {
+  color: var(--color-recording);
+}

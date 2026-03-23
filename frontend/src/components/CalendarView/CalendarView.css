@@ -1,0 +1,297 @@
+.calendar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+/* 本日の自然情報パネル */
+.nature-today-panel {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, rgba(78, 205, 196, 0.1), rgba(108, 143, 255, 0.1));
+  border: 1px solid rgba(108, 143, 255, 0.3);
+}
+
+.nature-icon-large {
+  font-size: 48px;
+  filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.3));
+}
+
+.nature-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nature-term {
+  font-size: 14px;
+  color: var(--color-accent);
+  font-weight: 700;
+  letter-spacing: 2px;
+  background: rgba(240, 160, 96, 0.15);
+  padding: 4px 10px;
+  border-radius: 20px;
+  display: inline-block;
+  align-self: flex-start;
+}
+
+.nature-tide-info {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+/* カレンダーグリッド */
+.calendar-view {
+  padding: 20px;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.cal-title {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.cal-btn {
+  background: var(--color-primary-dim);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.cal-btn:hover {
+  background: var(--color-primary);
+  color: white;
+  transform: scale(1.05);
+}
+
+.cal-today-btn {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  border-radius: 12px;
+  padding: 6px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.cal-today-btn:hover {
+  color: var(--color-text);
+  border-color: var(--color-text);
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+.cal-day-header {
+  text-align: center;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  padding-bottom: 12px;
+}
+.cal-day-header:first-child { color: var(--color-recording); } /* 日 */
+.cal-day-header:last-child { color: var(--color-primary); } /* 土 */
+
+.cal-cell {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-md);
+  min-height: 90px;
+  padding: 10px;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.cal-cell.empty {
+  visibility: hidden;
+}
+
+.cal-cell:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.cal-add-event-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  color: white;
+  border: none;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.cal-cell:hover .cal-add-event-btn {
+  opacity: 1;
+}
+
+.cal-add-event-btn:hover {
+  background: var(--color-primary);
+}
+
+.cal-cell.selected {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 15px var(--color-primary-dim);
+  background: rgba(108, 143, 255, 0.1);
+}
+
+.cal-date-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 4px;
+}
+
+.cal-date-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cal-date-num {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.cal-lunar-date {
+  font-size: 9px;
+  color: var(--color-text-muted);
+  opacity: 0.8;
+  white-space: nowrap;
+}
+
+.cal-cell.today .cal-date-num {
+  background: var(--color-primary);
+  color: white;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -3px;
+}
+
+.cal-tide-label {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.tide-大潮 { background: rgba(255, 101, 132, 0.2); color: var(--color-recording); }
+.tide-中潮 { background: rgba(108, 143, 255, 0.2); color: var(--color-primary); }
+.tide-小潮 { background: rgba(78, 205, 196, 0.2); color: var(--color-teal); }
+.tide-長潮 { background: rgba(136, 146, 176, 0.2); color: var(--color-text-muted); }
+.tide-若潮 { background: rgba(136, 146, 176, 0.2); color: var(--color-text-muted); }
+
+.cal-text-holiday {
+  color: var(--color-recording);
+}
+
+.cal-text-saturday {
+  color: var(--color-primary);
+}
+
+.holiday-bg {
+  background: rgba(255, 101, 132, 0.03);
+}
+
+.cal-holiday-name {
+  font-size: 10px;
+  color: var(--color-recording);
+  font-weight: 700;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cal-nature-info {
+  margin-top: auto;
+  font-size: 18px;
+  text-align: right;
+  opacity: 0.85;
+}
+
+.cal-events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 4px;
+}
+
+.cal-event-item {
+  font-size: 10px;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.cal-dots {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+.cal-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+.cal-dot.positive { background: var(--color-teal); }
+.cal-dot.negative { background: var(--color-recording); }
+.cal-dot.excited { background: var(--color-accent); }
+.cal-dot.neutral { background: var(--color-text-muted); }
+
+.cal-dot-more {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  line-height: 10px;
+  font-weight: 700;
+}

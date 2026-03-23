@@ -37,6 +37,12 @@ export function NoteCard({ note, onDelete }) {
 
       <p className="note-content">{note.content}</p>
 
+      {note.audioUrl && (
+        <div style={{ marginTop: '16px', marginBottom: '16px' }}>
+          <audio controls src={`http://localhost:3001${note.audioUrl}`} style={{ width: '100%', height: '36px' }} />
+        </div>
+      )}
+
       <div className="note-footer">
         <div className="note-tags">
           {(note.tags || []).map((tag, i) => (
