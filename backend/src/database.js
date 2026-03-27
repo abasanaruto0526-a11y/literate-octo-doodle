@@ -10,7 +10,7 @@ const dataDir = path.join(__dirname, '..', 'data');
 // dataフォルダ作成
 mkdirSync(dataDir, { recursive: true });
 
-const defaultData = { notes: [], tags: [] };
+const defaultData = { notes: [], tags: [], events: [], dailyMedia: [] };
 
 let db;
 

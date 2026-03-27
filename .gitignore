@@ -24,3 +24,8 @@ npm-debug.log*
 # OS
 .DS_Store
 Thumbs.db
+frontend/dev-dist/
+backend/runtime-*.log
+backend/runtime-*.err.log
+frontend/runtime-*.log
+frontend/runtime-*.err.log

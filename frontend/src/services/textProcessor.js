@@ -37,7 +37,6 @@ export function formatText(text, options = {}) {
   const {
     addPunctuation = true,    // 句読点自動追加
     removeFiller = true,      // フィラー語除去
-    capitalizeFirst = false,  // 先頭大文字化
   } = options;
 
   // フィラー語（えー、あのー、うーん）除去

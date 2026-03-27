@@ -1,4 +1,42 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+import { Capacitor } from '@capacitor/core';
+
+const DEFAULT_WEB_API_URL = 'http://localhost:3001';
+const DEFAULT_ANDROID_EMULATOR_API_URL = 'http://10.0.2.2:3001';
+const SAME_ORIGIN_API_URL = '';
+
+function readEnv(name) {
+  const value = import.meta.env[name];
+  return typeof value === 'string' && value.trim() !== '' ? value.trim() : '';
+}
+
+function resolveApiUrl() {
+  const explicitUrl = readEnv('VITE_API_URL');
+  if (explicitUrl) return explicitUrl;
+
+  const deviceUrl = readEnv('VITE_DEVICE_API_URL');
+  const androidEmulatorUrl = readEnv('VITE_ANDROID_EMULATOR_API_URL');
+
+  if (Capacitor.isNativePlatform()) {
+    if (Capacitor.getPlatform() === 'android') {
+      return deviceUrl || androidEmulatorUrl || DEFAULT_ANDROID_EMULATOR_API_URL;
+    }
+
+    return deviceUrl || DEFAULT_WEB_API_URL;
+  }
+
+  if (!import.meta.env.DEV) {
+    return SAME_ORIGIN_API_URL;
+  }
+
+  return DEFAULT_WEB_API_URL;
+}
+
+export const API_URL = resolveApiUrl();
+
+export function getApiAssetUrl(path = '') {
+  if (!path) return API_URL;
+  return `${API_URL}${path}`;
+}
 
 export const api = {
   // ノート一覧取得
@@ -79,6 +117,17 @@ export const api = {
     return res.json();
   },
 
+  // --- AI Analysis API ---
+  async analyzeText(text) {
+    const res = await fetch(`${API_URL}/api/analyze`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text }),
+    });
+    if (!res.ok) throw new Error('API Error');
+    return res.json();
+  },
+
   // ヘルスチェック
   async checkHealth() {
     try {
@@ -90,33 +139,4 @@ export const api = {
   }
 };
 
-// 感情分析（ローカル簡易版 - フェーズ3でOpenAI APIに置き換え）
-export function analyzeEmotion(text) {
-  const positiveWords = ['楽しい', '嬉しい', '最高', '素晴らしい', '好き', '良い', '幸', '感謝', 'ありがとう', '達成', '成功', '喜', '笑', '希望'];
-  const negativeWords = ['辛い', '悲しい', '嫌', '最悪', '難しい', '困った', '疲れ', '失敗', '不安', '怖', '怒', '悔', '苦'];
-  const excitedWords = ['やった', 'すごい', '驚', 'びっくり', '感動', 'ワクワク', '興奮', '信じられない'];
-
-  let positiveScore = 0;
-  let negativeScore = 0;
-  let excitedScore = 0;
-
-  positiveWords.forEach(w => { if (text.includes(w)) positiveScore++; });
-  negativeWords.forEach(w => { if (text.includes(w)) negativeScore++; });
-  excitedWords.forEach(w => { if (text.includes(w)) excitedScore++; });
-
-  if (excitedScore > 0) return 'excited';
-  if (positiveScore > negativeScore) return 'positive';
-  if (negativeScore > positiveScore) return 'negative';
-  return 'neutral';
-}
-
-// キーワード抽出（ローカル簡易版）
-export function extractKeywords(text) {
-  // 一般的な助詞・助動詞を除外
-  const stopWords = ['は', 'が', 'を', 'に', 'で', 'と', 'も', 'の', 'から', 'まで', 'より', 'て', 'た', 'だ', 'です', 'ます', 'ない', 'ある', 'いる', 'する', 'した', 'して', 'ので', 'から', 'けど'];
-  const words = text.split(/[、。\s！!？?]/g).filter(w => w.length > 1);
-  const keywords = [...new Set(words)]
-    .filter(w => !stopWords.includes(w))
-    .slice(0, 5);
-  return keywords;
-}
+// 感情分析とキーワード抽出はバックエンドの /api/analyze に統合されました。

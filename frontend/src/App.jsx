@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { VoiceRecorder } from './components/VoiceRecorder/VoiceRecorder';
 import { NoteCard } from './components/NoteCard/NoteCard';
 import { SearchBar } from './components/SearchBar/SearchBar';
@@ -6,7 +6,7 @@ import { EmotionStats } from './components/EmotionStats/EmotionStats';
 import { CalendarView } from './components/CalendarView/CalendarView';
 import { MindMapView } from './components/MindMapView/MindMapView';
 import { DailyDetailModal } from './components/DailyDetailModal/DailyDetailModal';
-import { api } from './services/api';
+import { api, getApiAssetUrl } from './services/api';
 import { searchNotes } from './services/textProcessor';
 import './App.css';
 
@@ -65,9 +65,7 @@ function App() {
     api.checkHealth().then(ok => setBackendStatus(ok ? 'connected' : 'offline'));
   }, []);
 
-  useEffect(() => { loadNotes(); }, []);
-
-  const loadNotes = async () => {
+  const loadNotes = useCallback(async () => {
     try {
       setLoading(true);
       const data = await api.getNotes();
@@ -94,7 +92,9 @@ function App() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => { loadNotes(); }, [loadNotes]);
 
   const handleSave = async (noteData) => {
     try {
@@ -209,6 +209,9 @@ function App() {
         <div className="sidebar-footer">
           <div className="phase-badge">フェーズ 5</div>
           <div className="phase-label">旧暦・潮汐情報カレンダー</div>
+          <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer" className="privacy-link">
+            プライバシーポリシー 📜
+          </a>
         </div>
       </aside>
 
@@ -309,6 +312,31 @@ function App() {
         </section>
       </main>
 
+      {/* モバイル用ボトムナビゲーション */}
+      <nav className="mobile-bottom-nav">
+        <button 
+          className={`mob-nav-item ${viewMode === 'list' ? 'active' : ''}`}
+          onClick={() => setViewMode('list')}
+        >
+          <span className="mob-nav-icon">📝</span>
+          <span className="mob-nav-label">ノート</span>
+        </button>
+        <button 
+          className={`mob-nav-item ${viewMode === 'calendar' ? 'active' : ''}`}
+          onClick={() => setViewMode('calendar')}
+        >
+          <span className="mob-nav-icon">📅</span>
+          <span className="mob-nav-label">カレンダ</span>
+        </button>
+        <button 
+          className={`mob-nav-item ${viewMode === 'mindmap' ? 'active' : ''}`}
+          onClick={() => setViewMode('mindmap')}
+        >
+          <span className="mob-nav-icon">🕸️</span>
+          <span className="mob-nav-label">マップ</span>
+        </button>
+      </nav>
+
       {showReminder && (
         <div style={{position: 'fixed', top:0, left:0, right:0, bottom:0, background: 'rgba(0,0,0,0.7)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(3px)'}}>
           <div className="glass-card" style={{padding: '30px', width: '400px', background: 'var(--color-bg-deep)', border: '1px solid var(--color-primary)', borderRadius: 'var(--radius-lg)', textAlign: 'center', boxShadow: '0 0 30px rgba(78, 205, 196, 0.3)'}}>
@@ -322,9 +350,9 @@ function App() {
                   {e.mediaUrl && (
                     <div style={{marginTop: '12px', background: 'rgba(0,0,0,0.2)', padding:'8px', borderRadius:'8px'}}>
                       {e.mediaUrl.endsWith('.mp4') ? (
-                        <video src={`http://localhost:3001${e.mediaUrl}`} controls style={{width:'100%', borderRadius:'4px', maxHeight:'250px', backgroundColor: '#000'}} />
+                        <video src={getApiAssetUrl(e.mediaUrl)} controls style={{width:'100%', borderRadius:'4px', maxHeight:'250px', backgroundColor: '#000'}} />
                       ) : (
-                        <img src={`http://localhost:3001${e.mediaUrl}`} alt="" style={{width:'100%', borderRadius:'4px', maxHeight:'250px', objectFit:'contain'}} />
+                        <img src={getApiAssetUrl(e.mediaUrl)} alt="" style={{width:'100%', borderRadius:'4px', maxHeight:'250px', objectFit:'contain'}} />
                       )}
                     </div>
                   )}

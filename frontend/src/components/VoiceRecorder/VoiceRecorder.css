@@ -17,6 +17,48 @@
   color: var(--color-text);
 }
 
+/* 入力モードタブ */
+.input-mode-tabs {
+  display: flex;
+  gap: 4px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 3px;
+}
+
+.mode-tab {
+  padding: 8px 18px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--color-text-muted);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font-main);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.mode-tab:hover {
+  color: var(--color-text);
+  background: rgba(255, 255, 255, 0.05);
+}
+.mode-tab.active {
+  background: rgba(108, 143, 255, 0.15);
+  color: var(--color-primary);
+  box-shadow: 0 2px 8px rgba(108, 143, 255, 0.15);
+}
+
+/* テキスト入力モード */
+.text-input-mode {
+  animation: slideUp 0.3s ease;
+}
+
+.text-mode-textarea {
+  min-height: 120px;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
 .recording-badge {
   display: inline-flex;
   align-items: center;
@@ -76,6 +118,33 @@
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
+}
+
+.sticky-stop-wrap {
+  position: sticky;
+  bottom: 16px;
+  z-index: 30;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+  pointer-events: none;
+}
+
+.sticky-stop-btn {
+  pointer-events: auto;
+  min-width: 180px;
+  padding: 16px 28px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff5f6d, #d7263d);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 800;
+  box-shadow: 0 10px 30px rgba(215, 38, 61, 0.35);
+}
+
+.sticky-stop-btn:disabled {
+  opacity: 0.7;
 }
 
 .record-btn {

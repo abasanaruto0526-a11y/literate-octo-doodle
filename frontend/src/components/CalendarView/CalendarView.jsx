@@ -2,6 +2,7 @@ import { useState } from 'react';
 import * as JapaneseHolidays from 'japanese-holidays';
 import { Lunar } from 'lunar-javascript';
 import { getMoonPhase, getSolarTerm } from '../../services/nature';
+import { getApiAssetUrl } from '../../services/api';
 import './CalendarView.css';
 
 export function CalendarView({ notes, events = [], onAddEvent, onDateSelect, selectedDate }) {
@@ -128,9 +129,9 @@ export function CalendarView({ notes, events = [], onAddEvent, onDateSelect, sel
                           {e.mediaUrl && (
                             <div className="cal-event-media-thumb">
                               {e.mediaUrl.endsWith('.mp4') ? (
-                                <video src={`http://localhost:3001${e.mediaUrl}`} muted loop playsInline style={{width:'100%', height:'auto', marginTop:'4px', borderRadius:'4px', pointerEvents:'none'}} />
+                                <video src={getApiAssetUrl(e.mediaUrl)} muted loop playsInline style={{width:'100%', height:'auto', marginTop:'4px', borderRadius:'4px', pointerEvents:'none'}} />
                               ) : (
-                                <img src={`http://localhost:3001${e.mediaUrl}`} alt="" style={{width:'100%', height:'auto', marginTop:'4px', borderRadius:'4px', pointerEvents:'none'}} />
+                                <img src={getApiAssetUrl(e.mediaUrl)} alt="" style={{width:'100%', height:'auto', marginTop:'4px', borderRadius:'4px', pointerEvents:'none'}} />
                               )}
                             </div>
                           )}

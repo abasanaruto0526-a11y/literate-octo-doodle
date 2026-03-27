@@ -1,0 +1,17 @@
+{
+  "name": "音でつながるライフノート",
+  "short_name": "ライフノート",
+  "description": "音声入力で日記やタスクを記録し、感情を可視化するノートアプリ。",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050a1a",
+  "theme_color": "#6c8fff",
+  "icons": [
+    {
+      "src": "/src/assets/app_icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

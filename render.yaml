@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: lifenote-app
+    runtime: node
+    plan: free
+    rootDir: .
+    buildCommand: cd frontend && npm ci && npm run build && cd ../backend && npm ci
+    startCommand: cd backend && npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: HOST
+        value: 0.0.0.0
+      - key: GEMINI_API_KEY
+        sync: false

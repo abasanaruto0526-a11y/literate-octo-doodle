@@ -28,7 +28,15 @@
 
 .logo-icon {
   font-size: 32px;
-  filter: drop-shadow(0 0 8px rgba(108, 143, 255, 0.5));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, #1d1d1f, #000000);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+  filter: drop-shadow(0 0 12px rgba(108, 143, 255, 0.3));
 }
 
 .logo-title {
@@ -148,8 +156,23 @@
 }
 
 .phase-label {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--color-text-muted);
+  margin-bottom: 12px;
+}
+
+.privacy-link {
+  display: block;
+  font-size: 11px;
+  color: var(--color-primary);
+  text-decoration: none;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.privacy-link:hover {
+  opacity: 1;
+  text-decoration: underline;
 }
 
 /* メインコンテンツ */
@@ -250,9 +273,10 @@
 }
 
 .notes-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 32px;
+  padding-bottom: 60px;
 }
 
 /* ローディングスケルトン */
@@ -299,12 +323,79 @@
   opacity: 0.7;
 }
 
+/* モバイル用ボトムナビ */
+.mobile-bottom-nav {
+  display: none; /* デフォルトは非表示 */
+}
+
 @media (max-width: 768px) {
   .app {
     grid-template-columns: 1fr;
     padding: 16px;
+    padding-bottom: 90px; /* ナビの分だけ余白を空ける */
   }
+
+  /* サイドバー内のナビを隠す（ボトムナビに移行するため） */
+  .sidebar-nav, .view-toggle {
+    display: none;
+  }
+
   .sidebar {
     position: static;
+    padding: 12px;
+  }
+
+  .mobile-bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background: rgba(13, 22, 48, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid var(--color-border);
+    z-index: 1000;
+    padding: 0 20px;
+    padding-bottom: env(safe-area-inset-bottom); /* iPhoneのホームバー対策 */
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .mob-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: transparent;
+    border: none;
+    color: var(--color-text-muted);
+    gap: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .mob-nav-item.active {
+    color: var(--color-primary);
+  }
+
+  .mob-nav-icon {
+    font-size: 22px;
+  }
+
+  .mob-nav-label {
+    font-size: 10px;
+    font-weight: 700;
+  }
+
+  /* カードも1列にする */
+  .notes-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .main-header h1 {
+    font-size: 20px;
   }
 }
