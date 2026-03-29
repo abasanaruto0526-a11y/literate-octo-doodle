@@ -295,3 +295,129 @@
   line-height: 10px;
   font-weight: 700;
 }
+
+@media (max-width: 768px) {
+  .calendar-container {
+    gap: 16px;
+  }
+
+  .nature-today-panel {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .nature-icon-large {
+    font-size: 36px;
+  }
+
+  .nature-tide-info {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  .calendar-view {
+    padding: 12px;
+    overflow-x: hidden;
+  }
+
+  .calendar-header {
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .cal-title {
+    min-width: 0;
+    gap: 8px;
+    font-size: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .cal-btn {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+  }
+
+  .cal-today-btn {
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+
+  .calendar-grid {
+    gap: 4px;
+  }
+
+  .cal-day-header {
+    font-size: 11px;
+    padding-bottom: 6px;
+  }
+
+  .cal-cell {
+    min-width: 0;
+    min-height: 68px;
+    padding: 6px 4px;
+    border-radius: 10px;
+  }
+
+  .cal-date-top {
+    gap: 2px;
+    margin-bottom: 2px;
+  }
+
+  .cal-date-num {
+    font-size: 12px;
+  }
+
+  .cal-lunar-date,
+  .cal-holiday-name,
+  .cal-event-item,
+  .cal-tide-label {
+    font-size: 8px;
+  }
+
+  .cal-lunar-date,
+  .cal-holiday-name,
+  .cal-event-item {
+    max-width: 100%;
+  }
+
+  .cal-cell.today .cal-date-num {
+    width: 22px;
+    height: 22px;
+    margin-top: 0;
+  }
+
+  .cal-events-list {
+    gap: 1px;
+    margin-top: 3px;
+  }
+
+  .cal-event-item {
+    padding: 1px 4px;
+  }
+
+  .cal-nature-info {
+    font-size: 14px;
+  }
+
+  .cal-dots {
+    gap: 4px;
+    margin-top: 4px;
+  }
+
+  .cal-dot {
+    width: 7px;
+    height: 7px;
+  }
+
+  .cal-add-event-btn {
+    width: 18px;
+    height: 18px;
+    font-size: 12px;
+    opacity: 1;
+  }
+}

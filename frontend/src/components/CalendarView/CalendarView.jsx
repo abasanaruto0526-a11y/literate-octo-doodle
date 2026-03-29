@@ -128,7 +128,7 @@ export function CalendarView({ notes, events = [], onAddEvent, onDateSelect, sel
                           {e.isAnnual && '🎁 '}{e.title}
                           {e.mediaUrl && (
                             <div className="cal-event-media-thumb">
-                              {e.mediaUrl.endsWith('.mp4') ? (
+                              {(e.type === 'video') || e.mediaUrl.endsWith('.mp4') ? (
                                 <video src={getApiAssetUrl(e.mediaUrl)} muted loop playsInline style={{width:'100%', height:'auto', marginTop:'4px', borderRadius:'4px', pointerEvents:'none'}} />
                               ) : (
                                 <img src={getApiAssetUrl(e.mediaUrl)} alt="" style={{width:'100%', height:'auto', marginTop:'4px', borderRadius:'4px', pointerEvents:'none'}} />

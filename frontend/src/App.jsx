@@ -6,7 +6,7 @@ import { EmotionStats } from './components/EmotionStats/EmotionStats';
 import { CalendarView } from './components/CalendarView/CalendarView';
 import { MindMapView } from './components/MindMapView/MindMapView';
 import { DailyDetailModal } from './components/DailyDetailModal/DailyDetailModal';
-import { api, getApiAssetUrl } from './services/api';
+import { api, getApiAssetUrl, STORAGE_MODE } from './services/api';
 import { searchNotes } from './services/textProcessor';
 import './App.css';
 
@@ -62,6 +62,11 @@ function App() {
   };
 
   useEffect(() => {
+    if (STORAGE_MODE === 'device') {
+      setBackendStatus('connected');
+      return;
+    }
+
     api.checkHealth().then(ok => setBackendStatus(ok ? 'connected' : 'offline'));
   }, []);
 
@@ -349,7 +354,7 @@ function App() {
                   {e.isAnnual && '🎁 '}{e.title}
                   {e.mediaUrl && (
                     <div style={{marginTop: '12px', background: 'rgba(0,0,0,0.2)', padding:'8px', borderRadius:'8px'}}>
-                      {e.mediaUrl.endsWith('.mp4') ? (
+                      {(e.type === 'video') || e.mediaUrl.endsWith('.mp4') ? (
                         <video src={getApiAssetUrl(e.mediaUrl)} controls style={{width:'100%', borderRadius:'4px', maxHeight:'250px', backgroundColor: '#000'}} />
                       ) : (
                         <img src={getApiAssetUrl(e.mediaUrl)} alt="" style={{width:'100%', borderRadius:'4px', maxHeight:'250px', objectFit:'contain'}} />
