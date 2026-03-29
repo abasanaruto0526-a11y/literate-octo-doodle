@@ -69,6 +69,14 @@ function writeLocalDb(db) {
   window.localStorage.setItem(LOCAL_DB_KEY, JSON.stringify(db));
 }
 
+function normalizeBackupData(payload) {
+  return {
+    notes: Array.isArray(payload?.notes) ? payload.notes : [],
+    events: Array.isArray(payload?.events) ? payload.events : [],
+    dailyMedia: Array.isArray(payload?.dailyMedia) ? payload.dailyMedia : [],
+  };
+}
+
 function generateId() {
   if (typeof crypto !== 'undefined' && crypto.randomUUID) {
     return crypto.randomUUID();
@@ -250,6 +258,30 @@ export function getApiAssetUrl(path = '') {
   }
 
   return `${API_URL}${path}`;
+}
+
+export async function exportBackupData() {
+  if (!USE_LOCAL_DATA) {
+    throw new Error('バックアップは端末内保存モードで使えます');
+  }
+
+  return {
+    app: 'LifeNote',
+    mode: STORAGE_MODE,
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    ...normalizeBackupData(readLocalDb()),
+  };
+}
+
+export async function importBackupData(payload) {
+  if (!USE_LOCAL_DATA) {
+    throw new Error('復元は端末内保存モードで使えます');
+  }
+
+  const normalized = normalizeBackupData(payload);
+  writeLocalDb(normalized);
+  return normalized;
 }
 
 export const api = {

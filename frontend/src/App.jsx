@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { VoiceRecorder } from './components/VoiceRecorder/VoiceRecorder';
 import { NoteCard } from './components/NoteCard/NoteCard';
 import { SearchBar } from './components/SearchBar/SearchBar';
@@ -6,7 +6,7 @@ import { EmotionStats } from './components/EmotionStats/EmotionStats';
 import { CalendarView } from './components/CalendarView/CalendarView';
 import { MindMapView } from './components/MindMapView/MindMapView';
 import { DailyDetailModal } from './components/DailyDetailModal/DailyDetailModal';
-import { api, getApiAssetUrl, STORAGE_MODE } from './services/api';
+import { api, getApiAssetUrl, STORAGE_MODE, exportBackupData, importBackupData } from './services/api';
 import { searchNotes } from './services/textProcessor';
 import './App.css';
 
@@ -23,6 +23,8 @@ function App() {
   const [backendStatus, setBackendStatus] = useState(null);
   const [viewMode, setViewMode] = useState('list'); // 'list' | 'calendar'
   const [selectedDate, setSelectedDate] = useState(null);
+  const [backupBusy, setBackupBusy] = useState(false);
+  const restoreInputRef = useRef(null);
 
   // 通知用のチャイム音声を生成・再生する関数
   const playChime = () => {
@@ -150,6 +152,51 @@ function App() {
   };
 
   // フィルター → 検索
+  const handleBackupExport = async () => {
+    try {
+      setBackupBusy(true);
+      const backup = await exportBackupData();
+      const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+
+      link.href = url;
+      link.download = `lifenote-backup-${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+      alert('バックアップを書き出しました');
+    } catch (error) {
+      alert(`バックアップに失敗しました: ${error.message}`);
+    } finally {
+      setBackupBusy(false);
+    }
+  };
+
+  const handleBackupImportClick = () => {
+    restoreInputRef.current?.click();
+  };
+
+  const handleBackupImport = async (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setBackupBusy(true);
+      const parsed = JSON.parse(await file.text());
+      await importBackupData(parsed);
+      await loadNotes();
+      setSelectedDate(null);
+      alert('バックアップを戻しました');
+    } catch (error) {
+      alert(`復元に失敗しました: ${error.message}`);
+    } finally {
+      event.target.value = '';
+      setBackupBusy(false);
+    }
+  };
+
   const emotionFiltered = filter === 'all' ? notes : notes.filter(n => n.emotion === filter);
   let filteredNotes = searchQuery ? searchNotes(emotionFiltered, searchQuery) : emotionFiltered;
 
@@ -214,6 +261,26 @@ function App() {
         <div className="sidebar-footer">
           <div className="phase-badge">フェーズ 5</div>
           <div className="phase-label">旧暦・潮汐情報カレンダー</div>
+          {STORAGE_MODE === 'device' && (
+            <div className="backup-panel">
+              <div className="backup-title">バックアップ</div>
+              <div className="backup-actions">
+                <button className="backup-btn" onClick={handleBackupExport} disabled={backupBusy}>
+                  {backupBusy ? '保存中...' : '書き出す'}
+                </button>
+                <button className="backup-btn secondary" onClick={handleBackupImportClick} disabled={backupBusy}>
+                  {backupBusy ? '読込中...' : '戻す'}
+                </button>
+              </div>
+              <input
+                ref={restoreInputRef}
+                type="file"
+                accept="application/json"
+                hidden
+                onChange={handleBackupImport}
+              />
+            </div>
+          )}
           <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer" className="privacy-link">
             プライバシーポリシー 📜
           </a>
