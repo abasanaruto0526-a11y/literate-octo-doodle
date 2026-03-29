@@ -229,7 +229,8 @@ function App() {
 
         <div className={`status-pill ${backendStatus}`}>
           <span className="status-dot" />
-          {backendStatus === 'connected' ? 'API 接続中'
+          {STORAGE_MODE === 'device' ? '端末内保存モード'
+            : backendStatus === 'connected' ? 'API 接続中'
             : backendStatus === 'offline' ? 'API オフライン'
             : '接続確認中...'}
         </div>
