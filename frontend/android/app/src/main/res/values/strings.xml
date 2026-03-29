@@ -1,7 +1,7 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">音でつながるライフノート</string>
-    <string name="title_activity_main">音でつながるライフノート</string>
+    <string name="app_name">LifeNote</string>
+    <string name="title_activity_main">LifeNote</string>
     <string name="package_name">com.tomonote.lifenote</string>
     <string name="custom_url_scheme">com.tomonote.lifenote</string>
 </resources>

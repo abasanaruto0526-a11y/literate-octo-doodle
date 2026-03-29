@@ -2,6 +2,7 @@ import { Capacitor } from '@capacitor/core';
 
 const DEFAULT_WEB_API_URL = 'http://localhost:3001';
 const DEFAULT_ANDROID_EMULATOR_API_URL = 'http://10.0.2.2:3001';
+const DEFAULT_NATIVE_PRODUCTION_API_URL = 'https://lifenote-app.onrender.com';
 const SAME_ORIGIN_API_URL = '';
 
 function readEnv(name) {
@@ -17,6 +18,10 @@ function resolveApiUrl() {
   const androidEmulatorUrl = readEnv('VITE_ANDROID_EMULATOR_API_URL');
 
   if (Capacitor.isNativePlatform()) {
+    if (!import.meta.env.DEV) {
+      return DEFAULT_NATIVE_PRODUCTION_API_URL;
+    }
+
     if (Capacitor.getPlatform() === 'android') {
       return deviceUrl || androidEmulatorUrl || DEFAULT_ANDROID_EMULATOR_API_URL;
     }

@@ -1,6 +1,6 @@
 {
   "appId": "com.tomonote.lifenote",
-  "appName": "音でつながるライフノート",
+  "appName": "LifeNote",
   "webDir": "dist",
   "server": {
     "cleartext": true,
