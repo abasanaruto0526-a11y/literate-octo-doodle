@@ -4,7 +4,7 @@ services:
     runtime: node
     plan: free
     rootDir: .
-    buildCommand: cd frontend && npm ci && npm run build && cd ../backend && npm ci
+    buildCommand: cd frontend && npm install --legacy-peer-deps && npm run build && cd ../backend && npm install --legacy-peer-deps
     startCommand: cd backend && npm start
     healthCheckPath: /api/health
     envVars:
@@ -12,3 +12,5 @@ services:
         value: 0.0.0.0
       - key: GEMINI_API_KEY
         sync: false
+      - key: NODE_VERSION
+        value: 20
