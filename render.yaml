@@ -4,8 +4,8 @@ services:
     runtime: node
     plan: free
     rootDir: .
-    buildCommand: cd frontend && npm install --legacy-peer-deps && npm run build && cd ../backend && npm install --legacy-peer-deps
-    startCommand: cd backend && npm start
+    buildCommand: npm ci --prefix frontend && npm run build --prefix frontend && npm ci --omit=dev --prefix backend
+    startCommand: npm --prefix backend start
     healthCheckPath: /api/health
     envVars:
       - key: HOST
